@@ -1,4 +1,5 @@
 import { Hono } from 'hono'
+import PTZModule from './ptz';
 
 export interface ModuleServer {
 
@@ -14,6 +15,6 @@ export interface Module {
 
 
 const modules: Module[] = [
-
+	PTZModule,
 ];
 

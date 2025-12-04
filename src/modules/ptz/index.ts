@@ -1,4 +1,4 @@
-import type { Module } from '@/modules/module.js';
+import type { Module } from '@/modules/module';
 import { Hono } from 'hono'
 
 const PTZModule: Module = {

@@ -1,5 +1,4 @@
-import { Hono } from 'hono'
-import Server from '@/server/server.js';
+import Server from '@/server/server';
 
 
 
@@ -9,6 +8,8 @@ function main(): void {
 	server.app.get('/', (c) => {
 		return c.text('Hello Hono!')
 	})
+
+	server.startServer();
 }
 
 main();
