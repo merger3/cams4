@@ -1,10 +1,12 @@
 import { Hono } from 'hono'
 import { serve } from '@hono/node-server'
 import type { Module, ModuleServer } from '@/modules/module.js';
+import * as constants from '@/constants';
+
 
 class Server {
 	// public
-	readonly app: Hono = new Hono();
+	readonly app: Hono<{ Variables: constants.Variables }> = new Hono<{ Variables: constants.Variables }>();
 
 	// private
 	private readonly port: number;
