@@ -1,6 +1,6 @@
 import { Hono } from 'hono'
 import { serve } from '@hono/node-server'
-import type { Module, ModuleServer } from '@/modules/module.js';
+import type { Module } from '@/modules/module';
 import * as constants from '@/constants';
 
 
@@ -18,8 +18,7 @@ class Server {
 
 	registerModule(module: Module): void {
 		this.modules[module.name] = module;
-		const moduleServer: ModuleServer = {};
-		this.app.route(module.basePath, module.Initialize(moduleServer, {}));
+		this.app.route(module.basePath, module.Initialize({}));
 	}
 
 	startServer(): void {

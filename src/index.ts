@@ -1,5 +1,5 @@
 import Server from '@/server/server';
-import { modules, type ModuleServer } from './modules/module';
+import { modules } from '@/modules/module';
 
 function main(): void {
 	let server = new Server(3000);

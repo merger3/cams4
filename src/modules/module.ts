@@ -5,14 +5,10 @@ import * as constants from '@/constants';
 // Module imports
 import PTZModule from './ptz';
 
-export interface ModuleServer {
-
-}
-
 export interface Module {
     name: string;
 	basePath: string;
-    Initialize: (ms: ModuleServer, config: {[index: string]: any}) => Hono<{ Variables: constants.Variables }>;
+    Initialize: (config: {[index: string]: any}) => Hono<{ Variables: constants.Variables }>;
     Shutdown: () => void;
 }
 

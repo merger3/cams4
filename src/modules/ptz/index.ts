@@ -10,13 +10,14 @@ import MoveHandler from './moveHandler';
 const PTZModule: Module = {
 	name: "PTZ",
 	basePath: "/ptz",
-	Initialize: (ms, config): Hono<{ Variables: constants.Variables }> => {
+	Initialize: (config): Hono<{ Variables: constants.Variables }> => {
 		const ptzModule = new Hono<{ Variables: constants.Variables }>();
+
+		ptzModule.use(CameraMiddleware);
 
 		ptzModule.on(
 			'POST',
-			'/move', 
-			CameraMiddleware,
+			'/move',
 			...MoveHandler.handle()
 		);
 
@@ -26,3 +27,12 @@ const PTZModule: Module = {
 }
 
 export default PTZModule;
+
+export function PTZURLBuilder(target: string, URLParams: any): string {
+		const params = new URLSearchParams(Object.assign({
+			camera: "1",
+		}, URLParams)
+	);
+
+	return `http://${target}/axis-cgi/com/ptz.cgi?${params.toString()}`
+}
