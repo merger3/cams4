@@ -12,7 +12,7 @@ const CameraMiddleware = createMiddleware<constants.Env>(async (ctx, next) => {
 
 	const cam = CameraManager.GetCamera(cameraName as string)
 
-	// Handle the case that no match cam is found
+	// Handle the case that no matching cam is found
 
 	ctx.set(constants.targetCameraKey, cam);
 	await next();

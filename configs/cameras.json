@@ -1,11 +1,12 @@
 {
 	"pasture": {
 		"name": "pasture",
-		"address": "192.168.4.36",
+		"address": "192.168.1.1",
 		"username": "root",
-		"password": "kadfex-jarkuf-1Zobdu",
+		"password": "asdf1234!",
 		"capabilities": [
-			"ptz"
+			"PTZ",
+			"IrCutFilter"
 		]
 	}
 }

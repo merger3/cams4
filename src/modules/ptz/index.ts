@@ -1,11 +1,13 @@
 import type { Module } from '@/modules/module';
-import { constants as http } from "http2";
 import { Hono } from 'hono'
 import * as constants from '@/constants';
-import CameraMiddleware from '@/server/middleware/camera';
+import { CameraMiddleware, CapabilitiesMiddleware } from '@/server/middleware';
+
 
 // Route imports
 import MoveHandler from './moveHandler';
+import PanHandler from './panHandler';
+
 
 const PTZModule: Module = {
 	name: "PTZ",
@@ -14,11 +16,19 @@ const PTZModule: Module = {
 		const ptzModule = new Hono<{ Variables: constants.Variables }>();
 
 		ptzModule.use(CameraMiddleware);
+		
+		ptzModule.on(
+			"POST",
+			"/move",
+			CapabilitiesMiddleware("PTZ"),
+			...MoveHandler.handle()
+		);
 
 		ptzModule.on(
-			http.HTTP2_METHOD_POST,
-			'/move',
-			...MoveHandler.handle()
+			"POST",
+			"/pan",
+			CapabilitiesMiddleware("PTZ"),
+			...PanHandler.handle()
 		);
 
     	return ptzModule;
@@ -27,12 +37,3 @@ const PTZModule: Module = {
 }
 
 export default PTZModule;
-
-export function PTZURLBuilder(target: string, URLParams: any): string {
-		const params = new URLSearchParams(Object.assign({
-			camera: "1",
-		}, URLParams)
-	);
-
-	return `http://${target}/axis-cgi/com/ptz.cgi?${params.toString()}`
-}

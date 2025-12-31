@@ -25,3 +25,11 @@ export async function makeVAPIXCall(url: string, authorization: string, method: 
 	}
 }
 
+export function VAPIXURLBuilder(api: string, target: string, URLParams: any): string {
+	const params = new URLSearchParams(Object.assign({
+		camera: "1",
+		}, URLParams)
+	);
+
+	return `http://${target}/axis-cgi/com/${api}.cgi?${params.toString()}`
+}

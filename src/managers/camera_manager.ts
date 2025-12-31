@@ -9,7 +9,6 @@ interface cameraConfig {
 }
 
 var CameraManager = {
-	// List functions that pull various configs
 	cameras: {} as Record<string, Camera>,
 
 	LoadCamera(newCamera: cameraConfig): void {

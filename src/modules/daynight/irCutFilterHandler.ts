@@ -7,31 +7,31 @@ import { makeVAPIXCall, VAPIXURLBuilder } from '@/utils';
 import { type Handler } from '@/modules/module';
 import { CapabilitiesMiddleware } from '@/server/middleware';
 
-const moveAdapter = z.object({ 
-	direction: z.enum([
-		"upleft",   "up",   "upright", 
-		"left",     "home", "right",
-		"downleft", "down", "downright",
-		"stop"
+
+const IrCutFilterAdapter = z.object({ 
+	state: z.enum([
+		"on",  
+		"off",    
+		"auto"
 	]),
 })
 
 function handle(): any {
 	return createFactory<constants.Env>().createHandlers(async (ctx) => {
 		// Error handle
-		let move = moveAdapter.parse(await ctx.req.json());
+		let irFilter = IrCutFilterAdapter.parse(await ctx.req.json());
 		let camera = ctx.get(constants.targetCameraKey)
 
-		let url = VAPIXURLBuilder("ptz", camera.name, {move: move.direction});
+		let url = VAPIXURLBuilder("ptz", camera.name, {IrCutFilter: irFilter.state});
 		let response = await makeVAPIXCall(url, camera.login);
 
 		return ctx.text(response as string)
 	})
 }
 
-const MoveHandler: Handler = {
-	adapter: moveAdapter,
+const IrCutFilterHandler: Handler = {
+	adapter: IrCutFilterAdapter,
 	handle: handle,
 }
 
-export default MoveHandler;
+export default IrCutFilterHandler;
