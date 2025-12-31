@@ -7,7 +7,7 @@ export async function makeVAPIXCall(url: string, authorization: string, method: 
 		const response = await fetch(url, {
 			method: method,
 			headers: {
-			Authorization: "Basic " + authorization,
+				"authorization": "Basic " + authorization,
 			},
 		});
 

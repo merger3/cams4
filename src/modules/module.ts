@@ -22,3 +22,7 @@ export const modules: Module[] = [
 	PTZModule,
 ];
 
+export function CheckCapabilities(camCapabilities: Set<string>, ...requiredCapabilities: string[]): boolean {
+	let requiredCapabilitiesSet: Set<string> = new Set(requiredCapabilities);
+	return requiredCapabilitiesSet.isSubsetOf(camCapabilities);
+}

@@ -1,6 +1,6 @@
 import type { Module } from '@/modules/module';
+import { constants as http } from "http2";
 import { Hono } from 'hono'
-import { basicAuth } from 'hono/basic-auth'
 import * as constants from '@/constants';
 import CameraMiddleware from '@/server/middleware/camera';
 
@@ -16,7 +16,7 @@ const PTZModule: Module = {
 		ptzModule.use(CameraMiddleware);
 
 		ptzModule.on(
-			'POST',
+			http.HTTP2_METHOD_POST,
 			'/move',
 			...MoveHandler.handle()
 		);

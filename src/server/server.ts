@@ -2,6 +2,14 @@ import { Hono } from 'hono'
 import { serve } from '@hono/node-server'
 import type { Module } from '@/modules/module';
 import * as constants from '@/constants';
+import * as managers from '@/managers';
+
+
+interface ServiceConfig {
+	port: number;
+
+	moduleMap: {[key: string]: boolean}
+}
 
 
 class Server {
@@ -11,6 +19,7 @@ class Server {
 	// private
 	private readonly port: number;
 	private modules: {[key: string]: Module} = {};
+	private managers: {[key: string]: Object} = {}
 
 	constructor(port: number) {
 		this.port = port;
@@ -19,6 +28,18 @@ class Server {
 	registerModule(module: Module): void {
 		this.modules[module.name] = module;
 		this.app.route(module.basePath, module.Initialize({}));
+	}
+
+	async initializeManagers(): Promise<void> {
+		await managers.ConfigManager.LoadAllConfigs();
+
+		let allCamConfigs: any[] = managers.ConfigManager.GetAllCameraConfigs()
+		// check if it's not empty
+
+		for (const [k, v] of Object.entries(allCamConfigs)) {
+			managers.CameraManager.LoadCamera(v)
+		}
+
 	}
 
 	startServer(): void {
