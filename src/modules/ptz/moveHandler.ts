@@ -1,7 +1,7 @@
 import { createFactory } from 'hono/factory';
 import * as z from "zod"; 
 import * as constants from '@/constants';
-import { makeVAPIXCall, VAPIXURLBuilder } from '@/utils';
+import { VAPIXManager } from '@/managers';
 import { type Handler } from '@/modules/module';
 
 const moveAdapter = z.object({ 
@@ -21,8 +21,8 @@ const MoveHandler: Handler = {
 			let move = moveAdapter.parse(await ctx.req.json());
 			let camera = ctx.get(constants.targetCameraKey)
 
-			let url = VAPIXURLBuilder("ptz", camera.name, {move: move.direction});
-			let response = await makeVAPIXCall(url, camera.login);
+			let url = VAPIXManager.URLBuilder("ptz", camera.name, {move: move.direction});
+			let response = await VAPIXManager.makeAPICall(url, camera.login);
 
 			return ctx.text(response as string)
 		})
