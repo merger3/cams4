@@ -11,14 +11,22 @@ const CapabilitiesMiddleware = (...capabilitiesList: string[]) => {
 		// Requires camera middleware first
 		let camera: Camera = ctx.get(constants.targetCameraKey);
 		if (!camera) {
-			return APIErrorResponse(ctx, http.HTTP_STATUS_INTERNAL_SERVER_ERROR, ErrorCode.InvalidContextCode, new Error("Camera not set on context"));
+			return APIErrorResponse(ctx, 
+				http.HTTP_STATUS_INTERNAL_SERVER_ERROR, 
+				ErrorCode.InvalidContextCode, 
+				new Error("Camera not set on context")
+			);
 		}
 
 		let requestedCapabilities = new Set(capabilitiesList);
 
 		let unsupportedCapabilities = requestedCapabilities.difference(camera.capabilities);
 		if (unsupportedCapabilities.size > 0) {
-			return APIErrorResponse(ctx, http.HTTP_STATUS_BAD_REQUEST, ErrorCode.UnsupportedActionCode, new Error(`Actions not supported on camera: ${Array.from(unsupportedCapabilities).join(', ')}`));
+			return APIErrorResponse(ctx, 
+				http.HTTP_STATUS_BAD_REQUEST, 
+				ErrorCode.UnsupportedActionCode, 
+				new Error(`Actions not supported on camera: ${Array.from(unsupportedCapabilities).join(', ')}`)
+			);
 		}
 
 		await next();

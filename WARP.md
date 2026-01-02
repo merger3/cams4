@@ -1,4 +1,4 @@
-# cams4 Project Guide
+# cams4 Project Guide (AI generated document)
 
 ## Overview
 cams4 is a TypeScript-based HTTP server that provides a RESTful API for controlling Axis network cameras using the VAPIX API. The server uses Hono as the web framework and features a modular architecture for different camera capabilities.
