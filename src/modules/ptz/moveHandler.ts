@@ -11,7 +11,7 @@ const moveAdapter = z.object({
 		"downleft", "down", "downright",
 		"stop"
 	]),
-})
+});
 
 const MoveHandler: Handler = {
 	adapter: moveAdapter,
@@ -19,12 +19,12 @@ const MoveHandler: Handler = {
 		return createFactory<constants.Env>().createHandlers(async (ctx) => {
 			// Error handle
 			let move = moveAdapter.parse(await ctx.req.json());
-			let camera = ctx.get(constants.targetCameraKey)
+			let camera = ctx.get(constants.targetCameraKey);
 
 			let url = VAPIXManager.URLBuilder("ptz", camera.name, {move: move.direction});
 			let response = await VAPIXManager.makeAPICall(url, camera.login);
 
-			return ctx.text(response as string)
+			return ctx.text(response as string);
 		})
 	},
 }

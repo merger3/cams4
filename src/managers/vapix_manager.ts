@@ -32,7 +32,7 @@ var VAPIXManager = {
 			}, URLParams)
 		);
 
-		return `http://${target}/axis-cgi/com/${api}.cgi?${params.toString()}`
+		return `http://${target}/axis-cgi/com/${api}.cgi?${params.toString()}`;
 	}
 }
 

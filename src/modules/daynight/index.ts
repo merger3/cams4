@@ -1,5 +1,5 @@
 import type { Module } from '@/modules/module';
-import { Hono } from 'hono'
+import { Hono } from 'hono';
 import * as constants from '@/constants';
 import { CameraMiddleware, CapabilitiesMiddleware } from '@/server/middleware';
 
@@ -25,6 +25,6 @@ const DayNightModule: Module = {
     	return dayNightModule;
 	},
 	Shutdown: (): void => {}
-}
+};
 
 export default DayNightModule;

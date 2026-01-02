@@ -1,4 +1,4 @@
-import { Hono, type Handler as HonoHandler } from 'hono'
+import { Hono, type Handler as HonoHandler } from 'hono';
 import type { ZodObject } from "zod"; 
 import * as constants from '@/constants';
 

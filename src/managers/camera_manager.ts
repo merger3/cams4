@@ -14,7 +14,7 @@ interface cameraConfig {
 const panAdapter = z.object({ 
 	degrees: z.number().min(-180.0)
 	.and(z.number().max(180.0)),
-})
+});
 
 var CameraManager = {
 	cameras: {} as Record<string, Camera>,
@@ -22,13 +22,13 @@ var CameraManager = {
 	LoadCamera(newCamera: cameraConfig): void {
 		let username = process.env[newCamera.name.toUpperCase() + usernameKey];
 		if (!username) {
-			console.log(`Unable to get username for ${newCamera.name} cam`)
+			console.log(`Unable to get username for ${newCamera.name} cam`);
 			return;
 		}
 
 		let password = process.env[newCamera.name.toUpperCase() + passwordKey];
 		if (!password) {
-			console.log(`Unable to get password for ${newCamera.name} cam`)
+			console.log(`Unable to get password for ${newCamera.name} cam`);
 			return;
 		}
 
@@ -37,11 +37,11 @@ var CameraManager = {
 			address: newCamera.address,
 			login: btoa(`${username}:${password}`),
 			capabilities: new Set(newCamera.capabilities)
-		}
+		};
 	},
 
 	GetCamera(camera: string): Camera | undefined {
-		return this.cameras[camera]
+		return this.cameras[camera];
 	},
 }
 

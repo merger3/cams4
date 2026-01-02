@@ -1,6 +1,6 @@
 import { readFile, readdir } from "fs/promises";
 import { join } from "node:path";
-import * as constants from "@/constants"
+import * as constants from "@/constants";
 
 var ConfigManager = {
 	// List functions that pull various configs
@@ -20,11 +20,11 @@ var ConfigManager = {
 	},
 
 	GetCameraConfig(camera: string): any {
-		return this.configs[constants.CameraConfigKey][camera]
+		return this.configs[constants.CameraConfigKey][camera];
 	},
 
 	GetAllCameraConfigs(): any[] {
-		return this.configs[constants.CameraConfigKey]
+		return this.configs[constants.CameraConfigKey];
 	},
 }
 

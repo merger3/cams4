@@ -11,7 +11,7 @@ export function APIErrorResponse(ctx: Context<constants.Env>, status: number, co
 	let newAPIError: APIError = {
 		code: code,
 		details: error.message
-	}
+	};
 	
 	ctx.status(status as StatusCode);
 	

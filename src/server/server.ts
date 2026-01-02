@@ -1,5 +1,5 @@
-import { Hono } from 'hono'
-import { serve } from '@hono/node-server'
+import { Hono } from 'hono';
+import { serve } from '@hono/node-server';
 import type { Module } from '@/modules/module';
 import * as constants from '@/constants';
 import * as managers from '@/managers';
@@ -31,11 +31,11 @@ class Server {
 	async initializeManagers(): Promise<void> {
 		await managers.ConfigManager.LoadAllConfigs();
 
-		let allCamConfigs: any[] = managers.ConfigManager.GetAllCameraConfigs()
+		let allCamConfigs: any[] = managers.ConfigManager.GetAllCameraConfigs();
 		// check that it's not empty
 
 		for (const [k, v] of Object.entries(allCamConfigs)) {
-			managers.CameraManager.LoadCamera(v)
+			managers.CameraManager.LoadCamera(v);
 		}
 
 	}
@@ -46,7 +46,7 @@ class Server {
 			port: this.port
 		}, (info) => {
 			console.log(`Server is running on http://localhost:${info.port}`);
-		})
+		});
 	}
 }
 

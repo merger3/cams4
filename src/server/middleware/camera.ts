@@ -1,4 +1,4 @@
-import { createMiddleware } from 'hono/factory'
+import { createMiddleware } from 'hono/factory';
 import * as constants from '@/constants';
 import { constants as http } from "http2";
 import { CameraManager } from '@/managers';
@@ -15,7 +15,7 @@ const CameraMiddleware = createMiddleware<constants.Env>(async (ctx, next) => {
 		);
 	}
 
-	const cam = CameraManager.GetCamera((cameraName as string).toLowerCase())
+	const cam = CameraManager.GetCamera((cameraName as string).toLowerCase());
 	if (!cam) {
 		return APIErrorResponse(ctx, 
 			http.HTTP_STATUS_BAD_REQUEST, 
@@ -26,6 +26,6 @@ const CameraMiddleware = createMiddleware<constants.Env>(async (ctx, next) => {
 
 	ctx.set(constants.targetCameraKey, cam);
 	await next();
-})
+});
 
 export default CameraMiddleware;

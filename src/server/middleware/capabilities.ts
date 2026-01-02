@@ -1,4 +1,4 @@
-import { createMiddleware } from 'hono/factory'
+import { createMiddleware } from 'hono/factory';
 import { type ClientErrorStatusCode } from 'hono/utils/http-status';
 import * as constants from '@/constants';
 import type { Camera } from '@/models/camera';

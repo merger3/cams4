@@ -10,7 +10,7 @@ const IrFilterAdapter = z.object({
 		"off",    
 		"auto"
 	]),
-})
+});
 
 const IrFilterHandler: Handler = {
 	adapter: IrFilterAdapter,
@@ -18,12 +18,12 @@ const IrFilterHandler: Handler = {
 		return createFactory<constants.Env>().createHandlers(async (ctx) => {
 			// Error handle
 			let irFilter = IrFilterAdapter.parse(await ctx.req.json());
-			let camera = ctx.get(constants.targetCameraKey)
+			let camera = ctx.get(constants.targetCameraKey);
 
 			let url = VAPIXManager.URLBuilder("ptz", camera.name, {ircutfilter: irFilter.state});
 			let response = await VAPIXManager.makeAPICall(url, camera.login);
 
-			return ctx.text(response as string)
+			return ctx.text(response as string);
 		})
 	},
 }
