@@ -3,4 +3,5 @@ export enum ErrorCode {
   UnsupportedActionCode,
   MissingRequiredHeaderCode,
   UnknownCameraCode,
+  InvalidRequestBodyCode
 }
