@@ -1,11 +1,10 @@
 {
-	"pasture": {
-		"name": "pasture",
-		"address": "192.168.4.36",
-		"username": "root",
-		"password": "kadfex-jarkuf-1Zobdu",
-		"capabilities": [
-			"ptz"
+	"value": {
+		"field": "a field",
+		"another": 10,
+		"list": [
+			"ptz",
+			"ztp"
 		]
 	}
 }

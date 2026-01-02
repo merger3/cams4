@@ -1,3 +1,4 @@
+import 'dotenv/config';
 import Server from '@/server/server';
 import { modules } from '@/modules/module';
 
