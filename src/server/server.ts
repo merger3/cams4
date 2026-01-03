@@ -17,34 +17,36 @@ class Server {
 	}>();
 
 	// private
-	private readonly port: number;
-	private modules: { [key: string]: Module } = {};
+	readonly #port: number;
+	#modules: { [key: string]: Module } = {};
 
 	constructor(port: number) {
-		this.port = port;
+		this.#port = port;
 	}
 
-	registerModule(module: Module): void {
-		this.modules[module.name] = module;
+	registerModule(module: Module) {
+		this.#modules[module.name] = module;
 		this.app.route(module.basePath, module.Initialize({}));
 	}
 
-	async initializeManagers(): Promise<void> {
-		await managers.ConfigManager.LoadAllConfigs();
+	async initializeManagers() {
+		await managers.ConfigManager.loadAllConfigs();
 
-		let allCamConfigs: any[] = managers.ConfigManager.GetAllCameraConfigs();
-		// check that it's not empty
+		let allCamConfigs: any[] = managers.ConfigManager.getAllCameraConfigs();
+		if (allCamConfigs.length == 0) {
+			throw new Error()
+		}
 
 		for (const [k, v] of Object.entries(allCamConfigs)) {
-			managers.CameraManager.LoadCamera(v);
+			managers.CameraManager.loadCamera(v);
 		}
 	}
 
-	startServer(): void {
+	startServer() {
 		serve(
 			{
 				fetch: this.app.fetch,
-				port: this.port,
+				port: this.#port,
 			},
 			(info) => {
 				console.log(`Server is running on http://localhost:${info.port}`);

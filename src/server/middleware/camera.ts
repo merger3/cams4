@@ -17,7 +17,7 @@ const CameraMiddleware = createMiddleware<constants.Env>(async (ctx, next) => {
 		);
 	}
 
-	const cam = CameraManager.GetCamera((cameraName as string).toLowerCase());
+	const cam = CameraManager.getCamera(cameraName.toLowerCase());
 	if (!cam) {
 		return APIErrorResponse(
 			ctx,

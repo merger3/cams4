@@ -4,8 +4,8 @@ import * as constants from "@/constants";
 import type { Module } from "@/modules/module";
 import { CameraMiddleware, CapabilitiesMiddleware } from "@/server/middleware";
 
-import MoveHandler from "./moveHandler";
-import PanHandler from "./panHandler";
+import MoveHandler from "./move_handler";
+import PanHandler from "./pan_handler";
 
 const PTZModule: Module = {
 	name: "PTZ",

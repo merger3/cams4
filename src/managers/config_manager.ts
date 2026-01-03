@@ -3,11 +3,15 @@ import { join } from "node:path";
 
 import * as constants from "@/constants";
 
-const ConfigManager = {
+class ConfigManager {
 	// List functions that pull various configs
-	configs: {} as Record<string, any>,
+	#configs: Record<string, any>;
 
-	async LoadAllConfigs(): Promise<void> {
+	constructor() {
+		this.#configs = {};
+	}
+
+	async loadAllConfigs(): Promise<void> {
 		const configsDir = join(process.cwd(), "configs");
 		const files = await readdir(configsDir);
 		const jsonFiles = files.filter((f) => f.endsWith(".json"));
@@ -17,18 +21,18 @@ const ConfigManager = {
 				const configName = file.replace(/\.json$/, "");
 				const raw = await readFile(join(configsDir, file), "utf-8");
 				const obj = JSON.parse(raw);
-				this.configs[configName] = obj;
+				this.#configs[configName] = obj;
 			}),
 		);
-	},
+	};
 
-	GetCameraConfig(camera: string): any {
-		return this.configs[constants.CameraConfigKey][camera];
-	},
+	letCameraConfig(camera: string): any {
+		return this.#configs[constants.CameraConfigKey][camera];
+	};
 
-	GetAllCameraConfigs(): any[] {
-		return this.configs[constants.CameraConfigKey];
-	},
+	getAllCameraConfigs(): any[] {
+		return this.#configs[constants.CameraConfigKey];
+	};
 };
 
-export default ConfigManager;
+export default new ConfigManager();

@@ -11,10 +11,14 @@ interface cameraConfig {
 	capabilities: string[];
 }
 
-const CameraManager = {
-	cameras: {} as Record<string, Camera>,
+class CameraManager {
+	#cameras: Record<string, Camera>;
 
-	LoadCamera(newCamera: cameraConfig): void {
+	constructor() {
+		this.#cameras = {};
+	}
+
+	loadCamera(newCamera: cameraConfig): void {
 		let username = process.env[newCamera.name.toUpperCase() + usernameKey];
 		if (!username) {
 			console.log(`Unable to get username for ${newCamera.name} cam`);
@@ -27,17 +31,17 @@ const CameraManager = {
 			return;
 		}
 
-		this.cameras[newCamera.name] = {
+		this.#cameras[newCamera.name] = {
 			name: newCamera.name,
 			address: newCamera.address,
 			login: btoa(`${username}:${password}`),
 			capabilities: new Set(newCamera.capabilities),
 		};
-	},
+	}
 
-	GetCamera(camera: string): Camera | undefined {
-		return this.cameras[camera];
-	},
+	getCamera(camera: string): Camera | undefined {
+		return this.#cameras[camera];
+	}
 };
 
-export default CameraManager;
+export default new CameraManager();

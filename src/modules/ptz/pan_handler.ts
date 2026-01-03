@@ -41,9 +41,29 @@ const PanHandler: Handler = {
 			let url = VAPIXManager.URLBuilder("ptz", camera.name, {
 				pan: pan.degrees,
 			});
-			let response = await VAPIXManager.makeAPICall(url, camera.login);
+			
+			let response;
+			try {
+				response = await VAPIXManager.makeAPICall(url, camera.login);
+			} catch (error) {
+				return APIErrorResponse(
+					ctx,
+					http.HTTP_STATUS_INTERNAL_SERVER_ERROR,
+					ErrorCode.VAPIXCallFailed,
+					new Error("Unable to make VAPIX call", { cause: error }),
+				);
+			}
 
-			return ctx.text(response as string);
+			if (!response.ok) {
+				return APIErrorResponse(
+					ctx,
+					http.HTTP_STATUS_BAD_GATEWAY,
+					ErrorCode.VAPIXCallFailed,
+					new Error("VAPIX call failed", { cause: await response.text() }),
+				);
+			}
+
+			return ctx.text(await response.text());
 		});
 	},
 };

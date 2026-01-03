@@ -4,7 +4,7 @@ import * as constants from "@/constants";
 import type { Module } from "@/modules/module";
 import { CameraMiddleware, CapabilitiesMiddleware } from "@/server/middleware";
 
-import IrFilterHandler from "./irFilterHandler";
+import IrFilterHandler from "./ir_filter_handler";
 
 const DayNightModule: Module = {
 	name: "DayNight",

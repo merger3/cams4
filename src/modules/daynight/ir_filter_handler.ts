@@ -8,23 +8,17 @@ import { type Handler } from "@/modules/module";
 import { APIErrorResponse } from "@/utils";
 import { ErrorCode } from "@/errors/error_codes";
 
-// prettier-ignore
-const moveAdapter = z.object({
-	direction: z.enum([
-		"upleft",   "up",   "upright", 
-		"left",     "home", "right",
-		"downleft", "down", "downright",
-		"stop"
-	]),
+const IrFilterAdapter = z.object({
+	state: z.enum(["on", "off", "auto"]),
 });
 
-const MoveHandler: Handler = {
-	adapter: moveAdapter,
+const IrFilterHandler: Handler = {
+	adapter: IrFilterAdapter,
 	handle: () => {
 		return createFactory<constants.Env>().createHandlers(async (ctx) => {
-			let move;
+			let irFilter;
 			try {
-				move = moveAdapter.parse(await ctx.req.json());
+				irFilter = IrFilterAdapter.parse(await ctx.req.json());
 			} catch (error) {
 				return APIErrorResponse(
 					ctx,
@@ -45,13 +39,33 @@ const MoveHandler: Handler = {
 			}
 
 			let url = VAPIXManager.URLBuilder("ptz", camera.name, {
-				move: move.direction,
+				ircutfilter: irFilter.state,
 			});
-			let response = await VAPIXManager.makeAPICall(url, camera.login);
 
-			return ctx.text(response as string);
+			let response;
+			try {
+				response = await VAPIXManager.makeAPICall(url, camera.login);
+			} catch (error) {
+				return APIErrorResponse(
+					ctx,
+					http.HTTP_STATUS_INTERNAL_SERVER_ERROR,
+					ErrorCode.VAPIXCallFailed,
+					new Error("Unable to make VAPIX call", { cause: error }),
+				);
+			}
+
+			if (!response.ok) {
+				return APIErrorResponse(
+					ctx,
+					http.HTTP_STATUS_BAD_GATEWAY,
+					ErrorCode.VAPIXCallFailed,
+					new Error("VAPIX call failed", { cause: await response.text() }),
+				);
+			}
+
+			return ctx.text(await response.text());
 		});
 	},
 };
 
-export default MoveHandler;
+export default IrFilterHandler;

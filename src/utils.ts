@@ -16,12 +16,17 @@ export function APIErrorResponse(
 ): Response {
 	let err = error instanceof Error ? error : new Error(String(error));
 
+	let details = err.message;
+	if (err.cause) {
+ 		details += `: ${err.cause}`
+	}
+
 	let newAPIError: APIError = {
 		code: code,
-		details: err.message,
+		details: details,
 	};
 
 	ctx.status(status as StatusCode);
-
+	
 	return ctx.json(newAPIError);
 }
